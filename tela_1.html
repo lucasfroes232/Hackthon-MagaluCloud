@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MINDBOSS - Introdução</title>
+    <link rel="stylesheet" href="tela_1.css">
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="particles" id="particles"></div>
+    
+    <div class="moon"></div>
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    
+    <!-- Botão Voltar (inicialmente escondido) -->
+    <button class="back-button" id="backButton">← Voltar</button>
+    
+    <div class="container">
+        <div class="logo-container" id="logoContainer">
+            <h1 class="logo">
+                <span class="mind">MIND</span>
+                <span class="boss">BOSS</span>
+            </h1>
+            <p class="subtitle">Um mundo de conhecimento te aguarda</p>
+        </div>
+        
+        <!-- Botões principais -->
+        <div class="buttons" id="mainButtons">
+            <a href="#" class="btn-text" id="loginBtn">Já sou um aventureiro</a>
+            <a href="#" class="btn-text" id="registerBtn">Quero me tornar um aventureiro</a>
+        </div>
+
+        <!-- Formulário de login (inicialmente escondido) -->
+        <div class="login-container" id="loginContainer">
+            <div class="login-form">
+                <div class="input-group">
+                    <input type="text" id="username" class="form-input" placeholder="Nome de usuário" required>
+                    <div class="input-underline"></div>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" class="form-input" placeholder="Senha" required>
+                    <div class="input-underline"></div>
+                </div>
+                <button class="btn-login" id="enterBtn">Entrar</button>
+            </div> <!-- Fecha login-form -->
+        </div> <!-- Fecha login-container -->
+    </div> <!-- Fecha container -->
+
+    <script src="tela_1.js"></script>
+</body>
+</html>

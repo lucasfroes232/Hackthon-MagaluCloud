@@ -1,0 +1,534 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom, #0c1445, #1a237e, #283593);
+    color: #fff;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Efeito de estrelas no fundo */
+.stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.star {
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+    animation: twinkle 5s infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 1; }
+}
+
+/* Container principal */
+.container {
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    z-index: 1;
+}
+
+/* Logo/Título com animação */
+.logo-container {
+    margin-bottom: 80px;
+    position: relative;
+}
+
+.logo {
+    font-size: 5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    margin-bottom: 20px;
+    animation: float 3s ease-in-out infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.mind {
+    color: #ff9800;
+    text-shadow: 
+        0 0 10px #ff9800,
+        0 0 20px #ff9800,
+        0 0 30px #ff5722,
+        0 0 40px #ff5722;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.boss {
+    color: #8b0000;
+    text-shadow: 
+        0 0 10px #8b0000,
+        0 0 20px #8b0000,
+        0 0 30px #ff0000,
+        0 0 40px #ff0000;
+    font-family: 'Creepster', cursive;
+    font-size: 5.5rem;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Subtítulo */
+.subtitle {
+    font-size: 1.5rem;
+    color: #e0e0e0;
+    margin-bottom: 60px;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+/* Botões como texto interativo (estilo Terraria) */
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+}
+
+.btn-text {
+    background: transparent;
+    border: none;
+    color: #ff9800;
+    font-size: 1.5rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px rgba(255, 152, 0, 0.5);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    padding: 5px 10px;
+    position: relative;
+}
+
+.btn-text:hover {
+    color: #ffd54f;
+    text-shadow: 
+        0 0 10px #ff9800,
+        0 0 20px #ff9800,
+        0 0 30px #ff5722;
+    transform: scale(1.1);
+}
+
+/* Efeito de sublinhado animado nos botões - APENAS AQUI MODIFICADO */
+.btn-text::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #ff9800;
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* ← MAIS SUAVE */
+    transform: translateX(-50%);
+}
+
+.btn-text:hover::after {
+    width: 100%;
+}
+
+/* Elementos decorativos */
+.moon {
+    position: absolute;
+    top: 10%;
+    right: 10%;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, #fff9c4, #ffd54f);
+    border-radius: 50%;
+    box-shadow: 0 0 30px #ffd54f;
+}
+
+.cloud {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    z-index: -1;
+}
+
+.cloud-1 {
+    width: 200px;
+    height: 60px;
+    top: 20%;
+    left: 5%;
+    animation: moveCloud 20s linear infinite;
+}
+
+.cloud-2 {
+    width: 150px;
+    height: 50px;
+    top: 40%;
+    right: 10%;
+    animation: moveCloud 25s linear infinite reverse;
+}
+
+@keyframes moveCloud {
+    0% { transform: translateX(-100px); }
+    100% { transform: translateX(calc(100vw + 100px)); }
+}
+
+/* Efeito de partículas */
+.particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    animation: floatParticle 10s infinite linear;
+}
+
+@keyframes floatParticle {
+    0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-100px) translateX(20px); opacity: 0; }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .logo {
+        font-size: 3.5rem;
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .boss {
+        font-size: 4rem;
+    }
+    
+    .subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .btn-text {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 2.8rem;
+    }
+    
+    .boss {
+        font-size: 3.2rem;
+    }
+    
+    .btn-text {
+        font-size: 1.1rem;
+    }
+}
+
+/* ===== NOVAS REGRAS PARA TRANSIÇÃO ===== */
+
+/* Container do formulário de login (inicialmente escondido) */
+.login-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 400px;
+    opacity: 0;
+    display: none;
+}
+
+/* Formulário de login */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+}
+
+/* Grupos de input */
+.input-group {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+}
+
+.form-input {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid rgba(255, 152, 0, 0.5);
+    color: #ff9800;
+    font-size: 1.3rem;
+    padding: 15px 0;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.4s ease;
+    outline: none;
+}
+
+.form-input::placeholder {
+    color: rgba(255, 152, 0, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.form-input:focus {
+    border-bottom-color: #ff9800;
+    text-shadow: 0 0 10px #ff9800;
+}
+
+/* Underline animado */
+.input-underline {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #ff9800, transparent);
+    transition: all 0.4s ease;
+    transform: translateX(-50%);
+}
+
+.form-input:focus ~ .input-underline {
+    width: 100%;
+}
+
+/* Botão de entrar */
+.btn-login {
+    background: transparent;
+    border: 2px solid #ff9800;
+    color: #ff9800;
+    font-size: 1.4rem;
+    padding: 12px 40px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 0 0 8px rgba(255, 152, 0, 0.6);
+    transition: all 0.4s ease;
+    margin-top: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-login:hover {
+    background: rgba(255, 152, 0, 0.1);
+    text-shadow: 0 0 15px #ff9800;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 152, 0, 0.3);
+}
+
+.btn-login::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 152, 0, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-login:hover::before {
+    left: 100%;
+}
+
+/* ===== ANIMAÇÕES DE TRANSIÇÃO ===== */
+
+/* Botões saindo pela esquerda */
+.buttons.exit-left {
+    animation: exitLeft 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+@keyframes exitLeft {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-100vw);
+        opacity: 0;
+    }
+}
+
+/* Botões voltando pela esquerda */
+.buttons.return-left {
+    animation: returnLeft 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+@keyframes returnLeft {
+    0% {
+        transform: translateX(-100vw);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Formulário entrando pela direita */
+.login-container.enter-right {
+    display: block;
+    animation: enterRight 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+@keyframes enterRight {
+    0% {
+        transform: translate(100vw, -50%);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+}
+
+/* Formulário saindo pela direita */
+.login-container.exit-right {
+    animation: exitRight 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+@keyframes exitRight {
+    0% {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(100vw, -50%);
+        opacity: 0;
+    }
+}
+
+/* ===== ANIMAÇÕES ADICIONAIS ===== */
+
+/* Logo sobe mais para dar espaço (próximo da lua) */
+.logo-container.move-up {
+    animation: moveUp 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+@keyframes moveUp {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-150px); /* Subiu mais */
+    }
+}
+
+/* Logo desce para posição original */
+.logo-container.move-down {
+    animation: moveDown 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+@keyframes moveDown {
+    0% {
+        transform: translateY(-150px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+/* Botão voltar no mesmo estilo dos outros botões - CORRIGIDO */
+.back-button {
+    position: fixed; /* MANTENHA fixed */
+    top: 20px;      /* Mude para 20px */
+    left: 20px;     /* Mude para 20px */
+    z-index: 1000;
+    background: transparent;
+    border: none;
+    color: #ff9800;
+    font-size: 1.2rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px rgba(255, 152, 0, 0.5);
+    transition: all 0.4s ease;
+    text-decoration: none;
+    padding: 5px 10px;
+    opacity: 0;
+    transform: translateX(-50px);
+    /* REMOVA a segunda declaração de position e z-index */
+}
+
+.back-button::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #ff9800;
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateX(-50%);
+}
+
+.back-button:hover::after {
+    width: 100%;
+}
+
+.back-button.show {
+    animation: slideInBackButton 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+.back-button.hide {
+    animation: slideOutBackButton 0.4s ease forwards;
+}
+
+@keyframes slideInBackButton {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutBackButton {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+}
+
+.back-button:hover {
+    color: #ffd54f;
+    text-shadow: 
+        0 0 10px #ff9800,
+        0 0 20px #ff9800,
+        0 0 30px #ff5722;
+    transform: scale(1.1);
+}
