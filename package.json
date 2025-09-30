@@ -1,0 +1,16 @@
+{
+  "name": "site-typescript-basic",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && npx http-server public -p 4567"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.0"
+  }
+}
+
+
+
+
