@@ -43,16 +43,7 @@ O **MindBoss** une **IA generativa** e **gamificação** para reverter a lógica
 - O back-end:  
   - Faz requisições para o LLM (ChatGPT).  
   - Gerencia as raids, perguntas e respostas.  
-  - Salva tudo no banco MySQL.  
-
-
-## Gamificação  
-- O **boss é sempre o mesmo** (para simplificar o MVP).  
-- Cada raid corresponde a uma batalha com 15 perguntas.  
-- **Ideias futuras**:  
-  - Ranking/leaderboard entre jogadores.  
-  - Novos bosses temáticos.  
-  - Modo cooperativo entre estudantes.  
+  - Salva tudo no banco MySQL.   
 
 
 ## Tecnologias Usadas  
