@@ -4,7 +4,9 @@
     "module": "CommonJS",
     "strict": true,
     "esModuleInterop": true,
-    "outDir": "dist"
-  },
-  "include": ["src"]
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "public/dist",
+    "rootDir": ".",   
+    "skipLibCheck": true
+  }
 }
