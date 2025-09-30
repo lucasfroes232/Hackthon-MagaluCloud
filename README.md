@@ -66,8 +66,9 @@ O **MindBoss** une **IA generativa** e **gamificação** para reverter a lógica
 ## Próximos Passos  
 - Implementar **leaderboard** com ranking de jogadores.  
 - Adicionar novos bosses e elementos visuais de RPG.  
-- Integrar com plataformas de estudo (ex.: Google Classroom, Moodle).  
-- Lançar versão mobile.  
+- Permitir que vários jogadores estudem em conjunto em uma mesma raid. 
+- Validação de usuários.
+- Validação de documentos.
 
 
 ## Conclusão  
