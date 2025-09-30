@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz PDF com IA</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Quiz PDF com Agentes IA</h1>
+
+  <div>
+    <label>Selecione um PDF: </label>
+    <input type="file" id="pdfInput" accept=".pdf">
+    <button id="generateBtn">Gerar Perguntas</button>
+  </div>
+
+  <div id="quizContainer" style="display:none;">
+    <p id="questionText"></p>
+    <input type="text" id="userAnswer" placeholder="Digite sua resposta">
+    <button id="submitAnswer">Responder</button>
+    <p id="feedback"></p>
+  </div>
+
+  <script type="module" src="main.ts"></script>
+</body>
+</html>
