@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Site Básico em TypeScript</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+  </head>
+  <body>
+    <main class="container">
+      <h1>Site básico em TypeScript</h1>
+
+      <section class="card">
+        <label for="name">Seu nome:</label>
+        <input id="name" placeholder="Digite seu nome" />
+        <button id="greetBtn">Dizer olá</button>
+        <p id="greeting"></p>
+      </section>
+
+      <section class="card">
+        <h2>Contador</h2>
+        <div class="controls">
+          <button id="dec">-</button>
+          <span id="count">0</span>
+          <button id="inc">+</button>
+        </div>
+      </section>
+
+     <footer>
+       <small>Feito com ❤ e TypeScript</small>
+     </footer>
+   </main>
+
+
+<!-- carregamos o bundle compilado pelo tsc -->
+    <script type="module" src="/dist/main.js"></script>
+  </body>
+</html>
