@@ -2,25 +2,41 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Quiz PDF com IA</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Gerador de Perguntas</title>
 </head>
 <body>
-  <h1>Quiz PDF com Agentes IA</h1>
+  <h1>Gerador de Perguntas a partir de PDF</h1>
 
-  <div>
-    <label>Selecione um PDF: </label>
-    <input type="file" id="pdfInput" accept=".pdf">
-    <button id="generateBtn">Gerar Perguntas</button>
-  </div>
+  <input type="file" id="pdfFile" accept="application/pdf" />
+  <button id="btnGerar">Gerar Perguntas</button>
 
-  <div id="quizContainer" style="display:none;">
-    <p id="questionText"></p>
-    <input type="text" id="userAnswer" placeholder="Digite sua resposta">
-    <button id="submitAnswer">Responder</button>
-    <p id="feedback"></p>
-  </div>
+  <h2>Resultado:</h2>
+  <pre id="resultado"></pre>
 
-  <script type="module" src="main.ts"></script>
+  <script>
+    document.getElementById("btnGerar").addEventListener("click", async () => {
+      const fileInput = document.getElementById("pdfFile");
+      if (!fileInput.files.length) {
+        alert("Selecione um PDF primeiro!");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("pdf", fileInput.files[0]);
+
+      try {
+        const response = await fetch("/api/generate", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await response.json();
+        document.getElementById("resultado").textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        console.error(err);
+        alert("Erro ao gerar perguntas!");
+      }
+    });
+  </script>
 </body>
 </html>

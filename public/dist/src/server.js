@@ -6,16 +6,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const promises_1 = __importDefault(require("fs/promises"));
 const path_1 = __importDefault(require("path"));
+const multer_1 = __importDefault(require("multer"));
+const pdfParse = require("pdf-parse"); // só uma vez aqui
 const dotenv_1 = __importDefault(require("dotenv"));
 const openai_1 = __importDefault(require("openai"));
 const Agente_Cria_1 = require("./Agents/Agente_Cria");
 const Agente_Checa_1 = require("./Agents/Agente_Checa");
-// 👇 importa pdf-parse de forma compatível com TypeScript
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const pdfParse = require("pdf-parse");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORT = 3000;
+// Configuração do multer (upload)
+const upload = (0, multer_1.default)({ dest: "uploads/" });
 // Middlewares
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
@@ -35,22 +36,20 @@ app.get("/", (req, res) => {
     res.sendFile(path_1.default.join(__dirname, "..", "public", "index.html"));
 });
 // --- Rota do Agente 1: gerar perguntas ---
-app.post("/api/generate", async (req, res) => {
+app.post("/api/generate", upload.single("pdf"), async (req, res) => {
     try {
-        const { pdfPath } = req.body;
-        if (!pdfPath) {
-            return res.status(400).json({ error: "PDF path required" });
+        if (!req.file) {
+            return res.status(400).json({ error: "Nenhum PDF enviado" });
         }
-        const pdfText = await readPDF(pdfPath);
+        const pdfText = await readPDF(req.file.path);
         const perguntas = await (0, Agente_Cria_1.gerarPerguntas)(openai, pdfText);
-        // Salva JSON gerado
         const outputPath = path_1.default.join(__dirname, "..", "perguntas.json");
         await promises_1.default.writeFile(outputPath, JSON.stringify(perguntas, null, 2));
-        res.json({ success: true, perguntas });
+        return res.json({ success: true, perguntas });
     }
     catch (err) {
         console.error(err);
-        res.status(500).json({ error: "Erro ao gerar perguntas" });
+        return res.status(500).json({ error: "Erro ao gerar perguntas" });
     }
 });
 // --- Rota do Agente 2: checar respostas ---
@@ -61,11 +60,11 @@ app.post("/api/check", async (req, res) => {
             return res.status(400).json({ error: "Missing fields" });
         }
         const resultado = await (0, Agente_Checa_1.checarResposta)(openai, pergunta, palavraBase, resposta);
-        res.json(resultado);
+        return res.json(resultado);
     }
     catch (err) {
         console.error(err);
-        res.status(500).json({ error: "Erro ao checar resposta" });
+        return res.status(500).json({ error: "Erro ao checar resposta" });
     }
 });
 // --- Inicializa servidor ---
