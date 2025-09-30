@@ -1,0 +1,76 @@
+[
+  {
+    "pergunta": "O que é aprendizado supervisionado?",
+    "frase_do_documento": "\"A computer programming is said to learn from experience E with respect to some task T and some performance measure P if its performance on T, measured by P, improves with E\". Tom Mitchell, 1998",
+    "resposta": "aprendizado supervisionado é quando a IA recebe tanto os dados de entrada quando as saídas e aprende com essas experiências",
+    "avaliacao": {
+      "classificacao": "bom",
+      "palavras_chave": [
+        "aprendizado supervisionado",
+        "IA",
+        "dados de entrada",
+        "saídas",
+        "aprende",
+        "experiências"
+      ]
+    }
+  },
+  {
+    "pergunta": "O que é uma instância em aprendizado de máquina?",
+    "frase_do_documento": "Instância: Representação de um objeto do mundo real.",
+    "resposta": "Representação de um objeto do mundo real.",
+    "avaliacao": {
+      "classificacao": "bom",
+      "palavras_chave": [
+        "Representação",
+        "objeto",
+        "mundo real"
+      ]
+    }
+  },
+  {
+    "pergunta": "Quem desempenha o papel de supervisor no aprendizado supervisionado?",
+    "frase_do_documento": "No aprendizado supervisionado, temos alguém (ou algum processo) rotulando cada exemplo da base de experiência: “Professor” ou “Supervisor” ou “Especialista”.",
+    "resposta": "o usuário que realiza a rotulação dos dados",
+    "avaliacao": {
+      "classificacao": "bom",
+      "palavras_chave": [
+        "usuário",
+        "realiza",
+        "rotulação",
+        "dados"
+      ]
+    }
+  },
+  {
+    "pergunta": "Qual é o objetivo na tarefa de classificação no aprendizado supervisionado?",
+    "frase_do_documento": "Na tarefa de classificação, esses rótulos são discretos. Objetivo é, para um dado não previamente rotulado, descobrir a qual classe ele pertence.",
+    "resposta": "Na tarefa de classificação, esses rótulos são discretos. Objetivo é, para um dado não previamente rotulado, descobrir a qual classe ele pertence.",
+    "avaliacao": {
+      "classificacao": "bom",
+      "palavras_chave": [
+        "tarefa",
+        "classificação",
+        "rótulos",
+        "discretos",
+        "dado",
+        "não previamente rotulado",
+        "classe"
+      ]
+    }
+  },
+  {
+    "pergunta": "Como o aprendizado supervisionado é aplicado na aprovação de crédito ou empréstimo?",
+    "frase_do_documento": "T = Decidir entre o crédito ou não. P = Quantos acertos, empréstimos que deram certo. E = Todos clientes rotulado como bom pagador ou não.",
+    "resposta": "ele é aplicavel em quem vai decidir entre credito ou nao, quantos creditos deram certos e todos os clientes",
+    "avaliacao": {
+      "classificacao": "bom",
+      "palavras_chave": [
+        "decidir",
+        "credito",
+        "certos",
+        "clientes"
+      ]
+    }
+  }
+]
