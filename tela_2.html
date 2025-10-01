@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizar Raid</title>
+    <link rel="stylesheet" href="tela_2.css">
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Lado esquerdo - Boss -->
+        <div class="boss-section">
+            <div class="boss-container">
+                <div class="boss-with-health">
+                    <div class="health-bar-container">
+                        <div class="health-bar full" id="health-bar"></div>
+                    </div>
+                    <div class="boss" id="boss"></div>
+                </div>
+                <h2 class="boss-name" id="boss-name">Chefe da Raid</h2>
+            </div>
+        </div>
+
+        <!-- Lado direito - Arquivo da Raid -->
+        <div class="file-section">
+            <div class="file-header">
+                <h2>Arquivo da Raid</h2>
+                <button id="back-button" class="back-btn">Voltar</button>
+            </div>
+            <div class="file-content" id="file-content">
+                <!-- Conteúdo do arquivo será carregado aqui -->
+            </div>
+        </div>
+    </div>
+
+    <script src="tela_2.js"></script>
+</body>
+</html>

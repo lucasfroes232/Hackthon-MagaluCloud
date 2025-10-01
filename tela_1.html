@@ -45,9 +45,63 @@
                     <div class="input-underline"></div>
                 </div>
                 <button class="btn-login" id="enterBtn">Entrar</button>
-            </div> <!-- Fecha login-form -->
-        </div> <!-- Fecha login-container -->
-    </div> <!-- Fecha container -->
+            </div>
+        </div>
+
+        <!-- Menu do Jogo (inicialmente escondido) -->
+        <div class="menu-container" id="menuContainer">
+            <div class="menu-buttons">
+                <a href="#" class="menu-btn" id="newRaidBtn">Nova Raid</a>
+                <a href="#" class="menu-btn" id="raidsBtn">Raids</a>
+            </div>
+        </div>
+
+        <!-- Tela de Upload (inicialmente escondida) -->
+        <div class="upload-container" id="uploadContainer">
+            <div class="upload-content">
+                <h2 class="upload-title">Faça upload do seu documento</h2>
+                <p class="upload-subtitle">Envie o arquivo que deseja transformar em uma raid</p>
+                
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📄</div>
+                    <p class="upload-text">Arraste e solte seu arquivo aqui<br>ou clique para selecionar</p>
+                    <input type="file" id="fileInput" class="file-input" accept=".pdf,.doc,.docx,.txt,.ppt,.pptx">
+                </div>
+                
+                <!-- BARRA DE PROGRESSO -->
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar" id="progressBar"></div>
+                    <div class="progress-text" id="progressText">Processando arquivo... 0%</div>
+                </div>
+                
+                <div class="upload-buttons">
+                    <button class="upload-btn confirm-btn" id="confirmUploadBtn">Confirmar Upload</button>
+                    <button class="upload-btn cancel-btn" id="cancelUploadBtn">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+    <!-- Na seção de raids, modifique o container -->
+    <div class="raids-container" id="raidsContainer">
+        <div class="raids-content">
+            <h2 class="raids-title">Suas Raids</h2>
+            <p class="raids-subtitle">Seus documentos transformados em aventuras</p>
+            
+            <div class="raids-list" id="raidsList">
+                <!-- As raids serão adicionadas dinamicamente aqui -->
+                <div class="no-raids" id="noRaids">
+                    <p>Nenhuma raid criada ainda</p>
+                    <p class="no-raids-sub">Comece criando sua primeira raid!</p>
+                </div>
+            </div>
+            
+            <div class="raids-buttons">
+                <button class="raids-btn new-raid-btn" onclick="transitionToUpload()">Nova Raid</button>
+                <button class="raids-btn back-btn" onclick="transitionBackToMenuFromRaids()">Voltar ao Menu</button>
+            </div>
+        </div>
+    </div>
+    </div>
 
     <script src="tela_1.js"></script>
 </body>

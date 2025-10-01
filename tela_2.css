@@ -1,0 +1,422 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom, #0c1445, #1a237e, #283593);
+    color: #fff;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Efeito de estrelas no fundo */
+.stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.star {
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+    animation: twinkle 5s infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 1; }
+}
+
+/* Efeito de partículas */
+.particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    animation: floatParticle 10s infinite linear;
+}
+
+@keyframes floatParticle {
+    0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-100px) translateX(20px); opacity: 0; }
+}
+
+/* Elementos decorativos */
+.moon {
+    position: absolute;
+    top: 10%;
+    right: 10%;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, #fff9c4, #ffd54f);
+    border-radius: 50%;
+    box-shadow: 0 0 30px #ffd54f;
+}
+
+.cloud {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    z-index: -1;
+}
+
+.cloud-1 {
+    width: 200px;
+    height: 60px;
+    top: 20%;
+    left: 5%;
+    animation: moveCloud 20s linear infinite;
+}
+
+.cloud-2 {
+    width: 150px;
+    height: 50px;
+    top: 40%;
+    right: 10%;
+    animation: moveCloud 25s linear infinite reverse;
+}
+
+@keyframes moveCloud {
+    0% { transform: translateX(-100px); }
+    100% { transform: translateX(calc(100vw + 100px)); }
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Lado esquerdo - Boss */
+.boss-section {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    border-right: 2px solid #ff9800;
+    position: relative;
+}
+
+.boss-container {
+    text-align: center;
+    position: relative;
+}
+
+/* Container do boss com barra de vida */
+.boss-with-health {
+    position: relative;
+    display: inline-block;
+}
+
+/* Barra de vida */
+.health-bar-container {
+    position: absolute;
+    top: -50px;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    border: 3px solid #ff9800;
+    border-radius: 15px;
+    padding: 4px;
+    box-shadow: 
+        0 0 15px rgba(255, 152, 0, 0.7),
+        inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.health-bar {
+    height: 25px;
+    background: linear-gradient(90deg, #4caf50, #8bc34a);
+    border-radius: 10px;
+    transition: width 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.health-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: healthShine 2s infinite;
+}
+
+@keyframes healthShine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Efeito de dano */
+.health-bar.damage {
+    animation: damageFlash 0.4s ease;
+}
+
+@keyframes damageFlash {
+    0% { 
+        filter: brightness(1.5) hue-rotate(0deg); 
+    }
+    50% { 
+        filter: brightness(2) hue-rotate(-30deg);
+    }
+    100% { 
+        filter: brightness(1) hue-rotate(0deg);
+    }
+}
+
+/* Cores baseadas na vida */
+.health-bar.full { background: linear-gradient(90deg, #4caf50, #8bc34a); }
+.health-bar.high { background: linear-gradient(90deg, #8bc34a, #cddc39); }
+.health-bar.medium { background: linear-gradient(90deg, #ff9800, #ffc107); }
+.health-bar.low { background: linear-gradient(90deg, #ff5722, #ff9800); }
+.health-bar.critical { 
+    background: linear-gradient(90deg, #f44336, #ff5722);
+    animation: criticalPulse 0.8s infinite;
+}
+
+@keyframes criticalPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Boss design atualizado */
+.boss {
+    width: 300px;
+    height: 400px;
+    background: linear-gradient(45deg, #8b0000, #b22222);
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 
+        0 0 30px #ff0000,
+        0 0 60px rgba(255, 152, 0, 0.4),
+        inset 0 0 20px rgba(0, 0, 0, 0.5);
+    border: 3px solid #ff9800;
+    animation: bossPulse 3s infinite;
+}
+
+@keyframes bossPulse {
+    0%, 100% { 
+        box-shadow: 
+            0 0 30px #ff0000,
+            0 0 60px rgba(255, 152, 0, 0.4),
+            inset 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+    50% { 
+        box-shadow: 
+            0 0 40px #ff0000,
+            0 0 80px rgba(255, 152, 0, 0.6),
+            inset 0 0 25px rgba(0, 0, 0, 0.4);
+    }
+}
+
+/* Desenho do boss */
+.boss::before {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 120px;
+    background: #2f4f4f;
+    border-radius: 50%;
+    box-shadow: 
+        0 0 20px #ff9800,
+        inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.boss::after {
+    content: '';
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 80px;
+    background: #2f4f4f;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #ff9800;
+}
+
+/* Nome do boss */
+.boss-name {
+    font-size: 2.5em;
+    margin-top: 20px;
+    color: #ff9800;
+    text-shadow: 
+        0 0 10px rgba(255, 152, 0, 0.7),
+        0 0 20px rgba(255, 152, 0, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-family: 'Creepster', cursive;
+}
+
+/* Lado direito - Arquivo */
+.file-section {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.file-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #ff9800;
+}
+
+.file-header h2 {
+    color: #ff9800;
+    font-size: 2em;
+    text-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.back-btn {
+    background: transparent;
+    border: 2px solid #ff9800;
+    color: #ff9800;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px rgba(255, 152, 0, 0.5);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.back-btn:hover {
+    background: rgba(255, 152, 0, 0.1);
+    color: #ffd54f;
+    text-shadow: 0 0 10px #ff9800;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 152, 0, 0.3);
+}
+
+.back-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 152, 0, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.back-btn:hover::before {
+    left: 100%;
+}
+
+.file-content {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 15px;
+    padding: 25px;
+    overflow-y: auto;
+    border: 2px solid #ff9800;
+    font-family: 'Courier New', monospace;
+    line-height: 1.6;
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        inset 0 0 20px rgba(255, 255, 255, 0.05),
+        0 0 30px rgba(255, 152, 0, 0.2);
+}
+
+/* Scrollbar personalizada */
+.file-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.file-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.file-content::-webkit-scrollbar-thumb {
+    background: #ff9800;
+    border-radius: 4px;
+}
+
+.file-content::-webkit-scrollbar-thumb:hover {
+    background: #ff5722;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    .boss-section {
+        border-right: none;
+        border-bottom: 2px solid #ff9800;
+    }
+    
+    .boss {
+        width: 200px;
+        height: 250px;
+    }
+    
+    .boss-name {
+        font-size: 2em;
+    }
+    
+    .health-bar-container {
+        top: -40px;
+    }
+    
+    .health-bar {
+        height: 20px;
+    }
+}
+
+/* Animações de entrada */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.boss-section, .file-section {
+    animation: fadeIn 0.8s ease-out;
+}
+
+.file-section {
+    animation-delay: 0.2s;
+    animation-fill-mode: both;
+}
