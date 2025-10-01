@@ -1,21 +1,21 @@
 import OpenAI from "openai";
 
 export async function gerarPerguntas(openai: OpenAI, pdfText: string) {
-  // instrução para o modelo gerar perguntas baseadas no texto do PDF
-  const completion = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [
-      {
-        role: "system",
-        content: "Você é um professor que gera perguntas de múltipla escolha com base em textos fornecidos."
-      },
-      {
-        role: "user",
-        content: `Gere 3 perguntas de múltipla escolha sobre o seguinte texto:\n\n${pdfText}`
-      }
-    ],
+  const prompt = `
+Com base no seguinte texto extraído do PDF, gere 5 perguntas de múltipla escolha:
+${pdfText}
+Retorne no formato JSON: [{ "pergunta": "", "opcoes": ["", "", ""], "resposta_correta": "" }]
+`;
+
+  const response = await openai.chat.completions.create({
+    model: "gpt-4",
+    messages: [{ role: "system", content: prompt }],
   });
 
-  // retorna o conteúdo da resposta
-  return completion.choices[0].message?.content ?? "";
+  const content = response.choices[0].message?.content || "[]";
+  try {
+    return JSON.parse(content);
+  } catch {
+    return [];
+  }
 }

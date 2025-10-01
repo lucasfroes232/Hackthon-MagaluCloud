@@ -1,73 +1,54 @@
 "use strict";
-const pdfInput = document.getElementById('pdfInput');
-const generateBtn = document.getElementById('generateBtn');
-const quizContainer = document.getElementById('quizContainer');
-const questionText = document.getElementById('questionText');
-const userAnswer = document.getElementById('userAnswer');
-const submitAnswer = document.getElementById('submitAnswer');
-const feedback = document.getElementById('feedback');
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+const generateBtn = document.getElementById('generate');
+const questionInput = document.getElementById('answer');
+const submitBtn = document.getElementById('submit');
+const output = document.getElementById('output');
 let questions = [];
-let currentQuestionIndex = 0;
-// Envia PDF para gerar perguntas
-generateBtn.addEventListener('click', async () => {
-    if (!pdfInput.files?.length)
-        return alert("Selecione um PDF!");
-    const file = pdfInput.files[0];
-    const formData = new FormData();
-    formData.append("pdf", file);
-    try {
-        const res = await fetch("/api/generate", { method: "POST", body: formData });
-        questions = await res.json();
-        if (questions.length === 0)
-            return alert("Nenhuma pergunta gerada.");
-        currentQuestionIndex = 0;
-        quizContainer.style.display = "block";
-        showQuestion();
-    }
-    catch (err) {
-        console.error(err);
-        alert("Erro ao gerar perguntas.");
-    }
-});
-function showQuestion() {
-    const q = questions[currentQuestionIndex];
-    questionText.textContent = `${q.pergunta} (Palavra base: ${q.palavra_baseada})`;
-    userAnswer.value = '';
-    feedback.textContent = '';
+let currentIndex = 0;
+if (generateBtn) {
+    generateBtn.addEventListener('click', () => __awaiter(void 0, void 0, void 0, function* () {
+        const res = yield fetch('/api/generate', { method: 'POST' });
+        questions = yield res.json();
+        currentIndex = 0;
+        output.textContent = "Perguntas geradas! Primeira pergunta: " + questions[currentIndex].pergunta;
+    }));
 }
-// Checa a resposta do usuário
-submitAnswer.addEventListener('click', async () => {
-    const answer = userAnswer.value.trim();
-    if (!answer)
-        return alert("Digite uma resposta!");
-    const q = questions[currentQuestionIndex];
-    try {
-        const res = await fetch("/api/check", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
+if (submitBtn && questionInput) {
+    submitBtn.addEventListener('click', () => __awaiter(void 0, void 0, void 0, function* () {
+        if (!questions[currentIndex])
+            return;
+        const res = yield fetch('/api/check', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                pergunta: q.pergunta,
-                palavra_baseada: q.palavra_baseada,
-                resposta: answer
+                pergunta: questions[currentIndex].pergunta,
+                palavra_baseada: questions[currentIndex].palavra_baseada,
+                respostaUsuario: questionInput.value
             })
         });
-        const result = await res.json();
-        feedback.textContent = `Classificação: ${result.classificacao}. Palavras-chave: ${result.palavras_chave.join(", ")}`;
-        if (result.classificacao === "bom") {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < questions.length) {
-                setTimeout(showQuestion, 1000); // Próxima pergunta
+        const result = yield res.json();
+        output.textContent = `Classificação: ${result.classificação}, Palavras-chave: ${result.palavras_chave.join(", ")}`;
+        if (result.classificação === "bom") {
+            currentIndex++;
+            if (questions[currentIndex]) {
+                output.textContent += "\nPróxima pergunta: " + questions[currentIndex].pergunta;
             }
             else {
-                feedback.textContent += " | Quiz finalizado!";
+                output.textContent += "\nFim do quiz!";
             }
         }
         else {
-            feedback.textContent += " | Tente novamente.";
+            output.textContent += "\nTente novamente.";
         }
-    }
-    catch (err) {
-        console.error(err);
-        alert("Erro ao checar a resposta.");
-    }
-});
+        questionInput.value = "";
+    }));
+}
