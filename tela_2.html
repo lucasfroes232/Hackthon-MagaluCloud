@@ -3,33 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualizar Raid</title>
+    <title>Desafio Poético - MINDBOSS</title>
     <link rel="stylesheet" href="tela_2.css">
     <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <!-- Lado esquerdo - Boss -->
+        <!-- Lado esquerdo - Boss e Perguntas -->
         <div class="boss-section">
             <div class="boss-container">
                 <div class="boss-with-health">
                     <div class="health-bar-container">
                         <div class="health-bar full" id="health-bar"></div>
                     </div>
-                    <div class="boss" id="boss"></div>
+                    <div class="boss" id="boss">
+                        <!-- A imagem será inserida aqui pelo JavaScript -->
+                    </div>
                 </div>
-                <h2 class="boss-name" id="boss-name">Chefe da Raid</h2>
+                <h2 class="boss-name" id="boss-name">Goblin dos Versos</h2>
+            </div>
+
+            <!-- Área de Pergunta e Resposta -->
+            <div class="question-section">
+                <div class="question-box">
+                    <p class="question-text" id="question-text">
+                        Carregando desafio poético...
+                    </p>
+                    <textarea 
+                        class="answer-box" 
+                        id="answer-input" 
+                        placeholder="Digite sua resposta aqui..."
+                        rows="4"
+                    ></textarea>
+                    <button class="submit-btn" id="submit-btn">
+                        Enviar Resposta
+                    </button>
+                </div>
             </div>
         </div>
 
-        <!-- Lado direito - Arquivo da Raid -->
+        <!-- Lado direito - Arquivo com Poemas -->
         <div class="file-section">
             <div class="file-header">
-                <h2>Arquivo da Raid</h2>
+                <h2>Poemas - Seu Conhecimento</h2>
                 <button id="back-button" class="back-btn">Voltar</button>
             </div>
             <div class="file-content" id="file-content">
-                <!-- Conteúdo do arquivo será carregado aqui -->
+                <!-- Conteúdo dos poemas será carregado aqui -->
             </div>
         </div>
     </div>

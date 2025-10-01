@@ -109,6 +109,7 @@ body {
     flex: 1;
     padding: 20px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     background: rgba(0, 0, 0, 0.3);
@@ -119,12 +120,14 @@ body {
 .boss-container {
     text-align: center;
     position: relative;
+    margin-bottom: 30px;
 }
 
 /* Container do boss com barra de vida */
 .boss-with-health {
     position: relative;
     display: inline-block;
+    margin-bottom: 40px;
 }
 
 /* Barra de vida */
@@ -168,7 +171,7 @@ body {
     100% { left: 100%; }
 }
 
-/* Efeito de dano */
+/* Efeito de dano na barra de vida */
 .health-bar.damage {
     animation: damageFlash 0.4s ease;
 }
@@ -200,11 +203,10 @@ body {
     50% { opacity: 0.7; }
 }
 
-/* Boss design atualizado */
+/* Boss design atualizado - AGORA COM IMAGEM */
 .boss {
-    width: 300px;
-    height: 400px;
-    background: linear-gradient(45deg, #8b0000, #b22222);
+    width: 280px;
+    height: 350px;
     border-radius: 20px;
     position: relative;
     box-shadow: 
@@ -213,8 +215,44 @@ body {
         inset 0 0 20px rgba(0, 0, 0, 0.5);
     border: 3px solid #ff9800;
     animation: bossPulse 3s infinite;
+    background: linear-gradient(45deg, #8b0000, #b22222);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
+.boss-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 17px;
+}
+
+/* Efeito de dano na imagem */
+.boss-image.damage {
+    animation: imageDamageFlash 0.4s ease;
+}
+
+@keyframes imageDamageFlash {
+    0% { 
+        filter: brightness(1.5) hue-rotate(0deg); 
+    }
+    50% { 
+        filter: brightness(2) hue-rotate(-30deg);
+    }
+    100% { 
+        filter: brightness(1) hue-rotate(0deg);
+    }
+}
+
+/* Remove os elementos ::before e ::after do boss antigo */
+.boss::before,
+.boss::after {
+    display: none;
+}
+
+/* Efeito de pulso na imagem */
 @keyframes bossPulse {
     0%, 100% { 
         box-shadow: 
@@ -230,39 +268,10 @@ body {
     }
 }
 
-/* Desenho do boss */
-.boss::before {
-    content: '';
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 120px;
-    height: 120px;
-    background: #2f4f4f;
-    border-radius: 50%;
-    box-shadow: 
-        0 0 20px #ff9800,
-        inset 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-.boss::after {
-    content: '';
-    position: absolute;
-    bottom: 20%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: 80px;
-    background: #2f4f4f;
-    border-radius: 10px;
-    box-shadow: 0 0 15px #ff9800;
-}
-
 /* Nome do boss */
 .boss-name {
-    font-size: 2.5em;
-    margin-top: 20px;
+    font-size: 2.2em;
+    margin-bottom: 30px;
     color: #ff9800;
     text-shadow: 
         0 0 10px rgba(255, 152, 0, 0.7),
@@ -270,6 +279,85 @@ body {
     text-transform: uppercase;
     letter-spacing: 3px;
     font-family: 'Creepster', cursive;
+}
+
+/* Área de Pergunta e Resposta */
+.question-section {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 20px;
+}
+
+.question-box {
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid #ff9800;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        0 0 20px rgba(255, 152, 0, 0.3),
+        inset 0 0 10px rgba(255, 255, 255, 0.05);
+}
+
+.question-text {
+    color: #ffd54f;
+    font-size: 1.3rem;
+    text-align: center;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px rgba(255, 213, 79, 0.5);
+}
+
+.answer-box {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid #ff9800;
+    border-radius: 10px;
+    padding: 15px;
+    color: #fff;
+    font-size: 1.1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    resize: vertical;
+    min-height: 100px;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.answer-box:focus {
+    border-color: #ffd54f;
+    box-shadow: 0 0 15px rgba(255, 213, 79, 0.4);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.answer-box::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.submit-btn {
+    width: 100%;
+    background: linear-gradient(45deg, #ff5722, #ff9800);
+    border: none;
+    color: white;
+    padding: 15px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+    transition: all 0.4s ease;
+    margin-top: 15px;
+    box-shadow: 0 0 20px rgba(255, 87, 34, 0.4);
+}
+
+.submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 30px rgba(255, 87, 34, 0.6);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
 }
 
 /* Lado direito - Arquivo */
@@ -380,15 +468,17 @@ body {
     .boss-section {
         border-right: none;
         border-bottom: 2px solid #ff9800;
+        padding: 15px;
     }
     
     .boss {
-        width: 200px;
-        height: 250px;
+        width: 220px;
+        height: 280px;
     }
     
     .boss-name {
-        font-size: 2em;
+        font-size: 1.8em;
+        margin-bottom: 20px;
     }
     
     .health-bar-container {
@@ -397,6 +487,48 @@ body {
     
     .health-bar {
         height: 20px;
+    }
+    
+    .question-section {
+        max-width: 100%;
+        margin-top: 15px;
+    }
+    
+    .question-box {
+        padding: 20px;
+    }
+    
+    .file-section {
+        padding: 15px;
+    }
+    
+    .file-header h2 {
+        font-size: 1.6em;
+    }
+}
+
+@media (max-width: 480px) {
+    .boss {
+        width: 180px;
+        height: 220px;
+    }
+    
+    .boss-name {
+        font-size: 1.5em;
+    }
+    
+    .question-text {
+        font-size: 1.1rem;
+    }
+    
+    .answer-box {
+        font-size: 1rem;
+        min-height: 80px;
+    }
+    
+    .submit-btn {
+        padding: 12px;
+        font-size: 1.1rem;
     }
 }
 
@@ -419,4 +551,31 @@ body {
 .file-section {
     animation-delay: 0.2s;
     animation-fill-mode: both;
+}
+
+.question-section {
+    animation: fadeIn 1s ease-out 0.4s both;
+}
+
+/* Feedback animations */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-50px);
+    }
 }
