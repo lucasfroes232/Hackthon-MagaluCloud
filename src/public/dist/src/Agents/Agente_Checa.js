@@ -10,8 +10,10 @@ Retorne um JSON com: { "classificacao": "", "palavras_chave": [] }
         model: "gpt-4",
         messages: [{ role: "system", content: prompt }],
     });
+    // Garantir que content seja string
+    const content = response.choices[0].message?.content || "{}";
     try {
-        return JSON.parse(response.choices[0].message.content);
+        return JSON.parse(content);
     }
     catch (err) {
         console.error("Erro ao processar resposta:", err);
