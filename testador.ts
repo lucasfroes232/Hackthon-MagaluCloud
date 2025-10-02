@@ -1,5 +1,5 @@
 // testador.ts
-import { criarUsuario, buscarUsuarioPorEmail, listarNomesDeRaids } from './database';
+import { criarUsuario, buscarUsuarioPorEmail, listarNomesDeRaids } from './src/database';
 
 async function rodarTestes() {
   console.log("--- INICIANDO TESTES ---");

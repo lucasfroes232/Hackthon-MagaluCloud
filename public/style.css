@@ -1,0 +1,13 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 2rem;
+}
+button {
+  margin-top: 1rem;
+}
+#perguntas {
+  margin-top: 2rem;
+}
+.pergunta {
+  margin-bottom: 1.5rem;
+}
