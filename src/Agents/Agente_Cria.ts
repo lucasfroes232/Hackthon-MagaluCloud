@@ -1,44 +1,47 @@
 import { OpenAI } from "openai";
-import fs from "fs/promises";
 import pdfParse from "pdf-parse";
+import fs from "fs";
 
-/**
- * Função para ler PDF e retornar texto
- */
+// Função para ler PDF
 export async function readPDF(filePath: string): Promise<string> {
-  const dataBuffer = await fs.readFile(filePath);
-  const data = await pdfParse(dataBuffer);
-  return data.text;
+  const dataBuffer = fs.readFileSync(filePath);
+  const pdfData = await pdfParse(dataBuffer);
+  return pdfData.text;
 }
 
-/**
- * Gera perguntas a partir de texto PDF usando OpenAI
- */
-export async function gerarPerguntas(openai: OpenAI, pdfText: string) {
-  const systemPrompt = `
-Com base no documento a seguir gere 5 perguntas com base nesse documento sobre a matéria nele
-e coloque as informações em um JSON com as seguintes chaves: 
-pergunta, frase_baseada, dificuldade.
-A dificuldade pode ser facil, medio ou dificil
+// Função para gerar perguntas
+export async function gerarPerguntas(openai: OpenAI, texto: string) {
+// mostrar que foi chamado a funcao
+
+console.log("gerarPerguntas foi chamado");
+
+  const prompt = `
+Com base no documento a seguir gere 5 perguntas com base nesse documento.
+
+"${texto}"
+
+Retorne apenas um JSON puro, sem Markdown ou backticks, no formato:
+{
+  "pergunta": "...",
+  "palavraBase": "..." // resposta esperada resumida em 1 palavra ou frase curta
+}
+Retorne um array JSON válido.
 `;
 
   const response = await openai.chat.completions.create({
-    model: "gpt-4",
-    messages: [
-      { role: "system", content: systemPrompt },
-      { role: "user", content: pdfText },
-    ],
+    model: "gpt-4o-mini",
+    messages: [{ role: "user", content: prompt }],
+    temperature: 0.5,
   });
 
-  const jsonString = response.choices[0].message?.content;
+  // Pega o texto da resposta
+  const content = response.choices[0].message.content;
 
-  let parsedJson: any = {};
   try {
-    parsedJson = JSON.parse(jsonString || "[]");
+    const perguntas = JSON.parse(content || "[]");
+    return perguntas;
   } catch (err) {
-    console.warn("Erro ao converter para JSON, salvando como string bruta.");
-    parsedJson = [{ raw: jsonString }];
+    console.error("Erro ao parsear perguntas:", err);
+    return [];
   }
-
-  return parsedJson;
 }

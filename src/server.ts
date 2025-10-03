@@ -19,12 +19,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Servir frontend (CommonJS já tem __dirname)
-app.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'), err => {
-    if (err) next(err);
-  });
-});
+app.use(express.static(path.join(__dirname, "public")));
+
 
 // Upload de PDF
 app.post("/upload-pdf", upload.single("pdf"), async (req, res) => {

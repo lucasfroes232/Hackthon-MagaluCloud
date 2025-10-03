@@ -1,43 +1,33 @@
 import { OpenAI } from "openai";
 
-/**
- * Avalia resposta do usuário usando OpenAI
- */
-export async function avaliarResposta(
-  pergunta: string,
-  frase_baseada: string,
-  resposta_usuario: string
-) {
-  const systemPrompt = `
-Você é um avaliador de respostas de quiz.
-Receba pergunta, frase base e resposta do usuário.
-Seja generoso e retorne um JSON:
-- classificacao: bom, medio ou ruim
-- palavras_chave: lista de palavras importantes
-`;
-
-  const userContent = `
+export async function avaliarResposta(pergunta: string, palavraBase: string, respostaUsuario: string) {
+  const prompt = `
 Pergunta: ${pergunta}
-Palavra base: ${frase_baseada}
-Resposta do usuário: ${resposta_usuario}
+Resposta esperada (palavraBase): ${palavraBase}
+Resposta do usuário: ${respostaUsuario}
+
+Verifique se a resposta do usuário está correta ou aceitável, considerando pequenas variações de linguagem.
+Responda apenas em JSON com o formato:
+{
+  "correto": true/false,
+  "feedback": "string explicando brevemente"
+}
 `;
 
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-  const response = await openai.chat.completions.create({
-    model: "gpt-4",
-    messages: [
-      { role: "system", content: systemPrompt },
-      { role: "user", content: userContent },
-    ],
+
+  const completion = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [{ role: "user", content: prompt }],
+    temperature: 0,
   });
 
-  const jsonString = response.choices[0].message?.content;
-  let result: any = {};
+  let avaliacao: { correto: boolean; feedback: string } = { correto: false, feedback: "Erro ao avaliar" };
   try {
-    result = JSON.parse(jsonString || "{}");
-  } catch {
-    result = { raw: jsonString };
+    avaliacao = JSON.parse(completion.choices[0].message.content || "{}");
+  } catch (err) {
+    console.error("Erro ao parsear JSON:", err);
   }
 
-  return result;
+  return avaliacao;
 }

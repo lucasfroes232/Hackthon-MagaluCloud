@@ -2,74 +2,52 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz AI</title>
+  <title>Quiz com PDF</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 2rem; }
-    .container { max-width: 600px; margin: auto; }
-    .question { font-weight: bold; margin-bottom: 1rem; }
-    textarea { width: 100%; height: 100px; margin-bottom: 1rem; }
-    button { padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer; }
-    .result { margin-top: 1rem; font-weight: bold; color: green; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      max-width: 700px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .pergunta {
+      margin: 20px 0;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    .pergunta input {
+      width: 70%;
+      padding: 5px;
+      margin-right: 10px;
+    }
+    .pergunta button {
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    #status {
+      margin-top: 10px;
+      color: green;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Quiz AI</h1>
+  <h1>Quiz a partir de PDF</h1>
 
-    <div class="question" id="question">Carregando pergunta...</div>
-    
-    <textarea id="userAnswer" placeholder="Digite sua resposta aqui..."></textarea>
-    <br>
-    <button id="submitAnswer">Enviar Resposta</button>
+  <!-- Formulário de upload -->
+  <form id="pdfForm">
+    <input type="file" name="pdf" id="pdfFile" accept="application/pdf" required>
+    <button type="submit">Enviar PDF</button>
+  </form>
 
-    <div class="result" id="result"></div>
-  </div>
+  <div id="status"></div>
 
-  <script>
-    let perguntaAtual = {
-      question: "Qual é a capital do Brasil?",
-      frase_baseada: "A capital do Brasil é Brasília"
-    };
+  <!-- Área das perguntas -->
+  <div id="perguntas"></div>
 
-    const questionDiv = document.getElementById("question");
-    const answerInput = document.getElementById("userAnswer");
-    const resultDiv = document.getElementById("result");
-    const submitBtn = document.getElementById("submitAnswer");
-
-    // Mostra a pergunta
-    function mostrarPergunta(pergunta) {
-      questionDiv.textContent = pergunta.question;
-    }
-
-    mostrarPergunta(perguntaAtual);
-
-    // Envia resposta para o backend
-    submitBtn.addEventListener("click", async () => {
-      const resposta = answerInput.value.trim();
-      if (!resposta) {
-        alert("Digite uma resposta antes de enviar.");
-        return;
-      }
-
-      try {
-        const res = await fetch("/avaliar-resposta", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            pergunta: perguntaAtual.question,
-            palavraBase: perguntaAtual.frase_baseada,
-            respostaUsuario: resposta
-          })
-        });
-
-        const data = await res.json();
-        resultDiv.textContent = `Classificação: ${data.classificacao || "não definido"} | Palavras-chave: ${data.palavras_chave?.join(", ") || "-"}`;
-      } catch (err) {
-        console.error(err);
-        resultDiv.textContent = "Erro ao enviar resposta.";
-      }
-    });
-  </script>
+  <script src="s.js"></script>
 </body>
 </html>

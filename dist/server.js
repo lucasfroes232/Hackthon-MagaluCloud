@@ -20,13 +20,7 @@ const openai = new openai_1.OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
-// Servir frontend (CommonJS já tem __dirname)
-app.use((req, res, next) => {
-    res.sendFile(path_1.default.join(__dirname, 'public', 'index.html'), err => {
-        if (err)
-            next(err);
-    });
-});
+app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
 // Upload de PDF
 app.post("/upload-pdf", upload.single("pdf"), async (req, res) => {
     try {
