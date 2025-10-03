@@ -1,5 +1,5 @@
 // testador.ts
-import { criarUsuario, buscarUsuarioPorEmail, listarNomesDeRaids } from './database';
+import { criarUsuario, buscarUsuarioPorEmail, listarNomesDeRaids, pool, fecharPool } from './src/database';
 
 async function rodarTestes() {
   console.log("--- INICIANDO TESTES ---");
@@ -23,17 +23,22 @@ async function rodarTestes() {
     // Teste 3: Lista todas as raids
     console.log("\nListando todas as raids existentes...");
     const raids = await listarNomesDeRaids();
-    console.log("Raids encontradas:", raids);
+    // Mapeia para exibir só o nome
+    const nomesRaids = (raids as { nome_raid: string }[]).map(r => r.nome_raid);
+    console.log("Raids encontradas:", nomesRaids);
 
   } catch (error) {
     console.error("\n!!! OCORREU UM ERRO DURANTE OS TESTES !!!");
     console.error(error);
   } finally {
     console.log("\n--- TESTES CONCLUÍDOS ---");
-    // Em uma aplicação real, você não fecha o pool a cada teste.
-    // Mas para um script simples, você poderia fechar se quisesse.
+    // Fecha o pool de conexões do MySQL
+    await pool.end();
   }
+
+  await fecharPool();
 }
 
 // Executa a função de testes
 rodarTestes();
+

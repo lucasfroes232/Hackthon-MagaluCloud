@@ -1,72 +1,70 @@
-import express, { Request, Response } from "express";
-import fs from "fs/promises";
+import cors from "cors";
+import multer from "multer";
 import path from "path";
-import fileUpload from "express-fileupload";
-import pdfParse from "pdf-parse";
+import express from "express";
 import dotenv from "dotenv";
-import OpenAI from "openai";
-
-import { gerarPerguntas } from "./Agents/Agente_Cria";
-import { checarResposta } from "./Agents/Agente_Checa";
-import { criarUsuario, buscarUsuarioPorEmail } from "./db";
+import { OpenAI } from "openai";
+import { readPDF, gerarPerguntas } from "./Agents/Agente_Cria";
+import { avaliarResposta } from "./Agents/Agente_Checa";
 
 dotenv.config();
 
 const app = express();
-const PORT = Number(process.env.PORT) || 3000;
-
-// Middlewares
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(fileUpload());
-app.use(express.static(path.join(__dirname, "..", "public")));
-
+const port = process.env.PORT || 3000;
+const upload = multer({ dest: "uploads/" });
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-// --- Função auxiliar para ler PDF ---
-async function readPDF(filePath: string) {
-  const data = await fs.readFile(filePath);
-  const pdfData = await pdfParse(data);
-  return pdfData.text;
-}
+// Middlewares
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// --- Rotas ---
-app.get("/", (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, "..", "public", "index.html"));
+app.use(express.static(path.join(__dirname, "public")));
+
+
+// Upload de PDF
+app.post("/upload-pdf", upload.single("pdf"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: "Nenhum arquivo enviado." });
+    }
+
+    const pdfPath = req.file.path;
+    const pdfText = await readPDF(pdfPath);
+
+    // Gera perguntas usando Agente_Cria
+    const perguntas = await gerarPerguntas(openai, pdfText);
+
+    return res.json({ perguntas });
+  } catch (err: any) {
+    console.error(err);
+    return res.status(500).json({ error: err.message });
+  }
 });
 
-app.post("/api/generate", async (req: Request, res: Response) => {
-  if (!req.files || !req.files.pdf) return res.status(400).json({ error: "Nenhum PDF enviado" });
-  const pdfFile = req.files.pdf as fileUpload.UploadedFile;
-  const tempPath = path.join(__dirname, "..", "uploads", pdfFile.name);
-  await pdfFile.mv(tempPath);
+// Avaliar resposta do usuário usando Agente_Checa
+app.post("/avaliar-resposta", async (req, res) => {
+  try {
+    const { pergunta, palavraBase, respostaUsuario } = req.body;
 
-  const pdfText = await readPDF(tempPath);
-  const perguntas = await gerarPerguntas(openai, pdfText);
+    if (!pergunta || !palavraBase || !respostaUsuario) {
+      return res.status(400).json({ error: "Dados incompletos." });
+    }
 
-  res.json({ success: true, perguntas });
+    const resultado = await avaliarResposta(pergunta, palavraBase, respostaUsuario);
+    return res.json(resultado);
+  } catch (err: any) {
+    console.error(err);
+    return res.status(500).json({ error: err.message });
+  }
 });
 
-app.post("/api/check", async (req: Request, res: Response) => {
-  const { pergunta, palavraBase, resposta } = req.body;
-  if (!pergunta || !palavraBase || !resposta)
-    return res.status(400).json({ error: "Campos faltando" });
-
-  const resultado = await checarResposta(openai, pergunta, palavraBase, resposta);
-  res.json(resultado);
+// Catch-all para SPA (Front-end)
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Exemplo de rota de usuários
-app.post("/api/usuarios", async (req: Request, res: Response) => {
-  const { email, senha } = req.body;
-  if (!email || !senha) return res.status(400).json({ error: "Email ou senha faltando" });
-
-  const existing = await buscarUsuarioPorEmail(email);
-  if (existing) return res.status(400).json({ error: "Usuário já existe" });
-
-  const result = await criarUsuario(email, senha);
-  res.json({ success: true, result });
+// Start server
+app.listen(port, () => {
+  console.log(`Servidor rodando em http://localhost:${port}`);
 });
-
-// --- Inicializa servidor ---
-app.listen(PORT, () => console.log(`Servidor rodando em http://localhost:${PORT}`));
